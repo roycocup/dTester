@@ -9,8 +9,9 @@
 
 # Requirements
 
-* PHP >= 5.3.23
+* PHP >= 5.3.23 or Any other 
 * [composer](https://getcomposer.org/download/)
+* Any other OO language
 
 
 # Installation
@@ -19,6 +20,8 @@
 
 
 # Notes
+
+You can also choose continue the provided solution or start fresh.
 
 A sample implementation is provided for parsing and writing xml files, it can be used like this:
 
