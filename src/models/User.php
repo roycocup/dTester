@@ -1,8 +1,8 @@
 <?php
 
-namespace Pay4Later\PDT;
+namespace Pay4Later\PDT\Models;
 
-use DateTime;
+use \DateTime;
 
 class User
 {
