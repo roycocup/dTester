@@ -64,7 +64,7 @@ abstract class AbstractClassAdapter extends AbstractAdapter
         $config = $this->options->getConfig();
         $class = $this->options->getClass();
         $hydrator = new ClassMethods();
-        
+
         if (!isset($config[$this->options->getClass()][$product])) {
             return $hydrator;
         }

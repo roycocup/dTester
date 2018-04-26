@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-class EmailTest extends TestCase
+class ReaderTest extends TestCase
 {
-
+    
 }
