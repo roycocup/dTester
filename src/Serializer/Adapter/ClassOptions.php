@@ -20,11 +20,6 @@ class ClassOptions extends AdapterOptions
      */
     private $class;
 
-    public function __construct($options = null)
-    {
-        $this->setClass($options);
-    }
-
     /**
      * @return array
      */

@@ -21,42 +21,45 @@ class XMLTest extends TestCase
 
     public function testAssertOptionsValid()
     {
-        $optionsOptions = new ClassOptions();
-        $options = new XmlClassOptions($optionsOptions);
+
+        $options = new XmlClassOptions();
+        $options->setClass($options->getClass());
         $xml = new XmlClass($options);
+        $xml->setOptions($options);
         $c = $xml->getOptions()->getClass();
-        var_dump($c); die;
+        
+        var_dump($xml->getOptions()); die;
         $this->assertTrue($c instanceof XmlClassOptions);
     }
 
 
-    public function testXmlCanSerialize()
-    {
-        $options = new XmlClassOptions();
-        $xml = new XmlClass($options);
-        
-        $testArray = [1,2,3,4,5, "umbrella", "something else"];
-
-        $serialized = $xml->serialize($testArray);
-
-        $this->assertTrue(!empty($serialized));
-
-    }
-
-    public function testXmlCanUnserialize()
-    {
-        $options = new XmlClassOptions();
-        $xml = new XmlClass($options);
-
-        $testArray = [1,2,3,4,5, "umbrella", "something else"];
-
-        $serialized = $xml->serialize($testArray);
-
-        $this->assertTrue(!empty($serialized));
-
-        $result = $xml->unserialize();
-
-        $this->assertEquals($result, $testArray);
-    }
+//    public function testXmlCanSerialize()
+//    {
+//        $options = new XmlClassOptions();
+//        $xml = new XmlClass($options);
+//
+//        $testArray = [1,2,3,4,5, "umbrella", "something else"];
+//
+//        $serialized = $xml->serialize($testArray);
+//
+//        $this->assertTrue(!empty($serialized));
+//
+//    }
+//
+//    public function testXmlCanUnserialize()
+//    {
+//        $options = new XmlClassOptions();
+//        $xml = new XmlClass($options);
+//
+//        $testArray = [1,2,3,4,5, "umbrella", "something else"];
+//
+//        $serialized = $xml->serialize($testArray);
+//
+//        $this->assertTrue(!empty($serialized));
+//
+//        $result = $xml->unserialize();
+//
+//        $this->assertEquals($result, $testArray);
+//    }
 
 }
