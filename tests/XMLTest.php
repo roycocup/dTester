@@ -7,14 +7,17 @@ use Solution\XMLReaderWriter;
 class XMLTest extends TestCase
 {
 
+    private $testFile = ".testFile.xml";
     protected function setUp()
     {
         parent::setUp();
+        touch($this->testFile);
     }
 
     protected function tearDown()
     {
         parent::tearDown();
+        unlink($this->testFile);
     }
 
 
@@ -41,8 +44,18 @@ class XMLTest extends TestCase
         $this->assertEquals($expected, $reader->getArray());
     }
 
+    /**
+     * @expectedException \Exception
+     */
+    public function testThrowExceptionIfNoPayload()
+    {
+        $xml = "this is not xml";
+        $reader = new XMLReaderWriter();
+        $reader->getArray();
+    }
 
-    public function testThrowsErrorIfXmlNotValid()
+
+    public function testReturnFalseIfXmlNotValid()
     {
         $xml = "this is not xml";
         $reader = new XMLReaderWriter();
@@ -62,16 +75,22 @@ class XMLTest extends TestCase
         $this->assertFalse($reader->valid());
     }
 
-    /**
-     * @expectedException \Exception
-     */
-    public function testThrowExceptionIfNoPayload()
+
+    public function testCanWriteToFile()
     {
-        $xml = "this is not xml";
-        $reader = new XMLReaderWriter();
-        $reader->getArray();
+        $expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<root>
+  <user>
+    <userid>1</userid>
+  </user>
+</root>
+";
+        $writer = new XMLReaderWriter();
+        $writer->read($expected);
+        $writer->write($this->testFile);
+        $out = file_get_contents($this->testFile);
+
+        $this->assertEquals($expected, $out);
     }
-
-
 
 }

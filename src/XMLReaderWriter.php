@@ -3,9 +3,10 @@ namespace Solution;
 
 
 use Desperado\XmlBundle\DesperadoXmlBundle;
+use Desperado\XmlBundle\Model\XmlGenerator;
 use Desperado\XmlBundle\Model\XmlReader;
 
-class XMLReaderWriter
+class XMLReaderWriter implements ReaderWriter
 {
     private $_payload = "";
 
@@ -45,5 +46,12 @@ class XMLReaderWriter
         {
             throw new \Exception("Empty payload", 001);
         }
+    }
+
+    public function write(string $fileName)
+    {
+        $writer = new XmlGenerator();
+        $data = $writer->generateFromArray($this->getArray());
+        file_put_contents($fileName, $data);
     }
 }
