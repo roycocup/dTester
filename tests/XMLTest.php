@@ -1,9 +1,8 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Pay4Later\PDT\Serializer\Adapter\XmlClass;
-use Pay4Later\PDT\Serializer\Adapter\XmlClassOptions;
-use Pay4Later\PDT\Serializer\Adapter\ClassOptions;
+use Solution\XMLReaderWriter;
+
 
 class XMLTest extends TestCase
 {
@@ -19,22 +18,60 @@ class XMLTest extends TestCase
     }
 
 
-    public function testCanGetRoot()
+    public function testCanPopulatePayload()
+    {
+        $expected = "<?xml version='1.0' encoding='utf-8'?><users><user><userid>1</userid></user></users>";
+
+        $reader = new XMLReaderWriter();
+        $reader->read($expected);
+        $out = $reader->getPayload();
+
+        $this->assertEquals($expected, $out);
+    }
+
+    public function testCanGetXMLArray()
     {
         $xml = "<?xml version='1.0' encoding='utf-8'?><users><user><userid>1</userid></user></users>";
+        $reader = new XMLReaderWriter();
+        $reader->read($xml);
 
-        $reader = new \XMLReader();
-        $reader->XML($xml);
-
-        while($reader->read()) {
-            if ($reader->nodeType == XMLReader::ELEMENT) {
-                $reader->getAttribute()
-//                $address = $reader->getAttribute('address');
-//                $latitude = $reader->getAttribute('lat');
-//                $longitude = $reader->getAttribute('lng');
-            }
-        }
-
+        $expected = [
+            "user"=>["userid"=>1]
+        ];
+        $this->assertEquals($expected, $reader->getArray());
     }
+
+
+    public function testThrowsErrorIfXmlNotValid()
+    {
+        $xml = "this is not xml";
+        $reader = new XMLReaderWriter();
+        $reader->read($xml);
+        $this->assertFalse($reader->valid());
+
+        $xml = "<?xml version='1.0' encoding='utf-8'?><users><user><userid>1</userid></user></users>";
+        $reader->read($xml);
+        $this->assertTrue($reader->valid());
+
+        $xml = "<users><user><userid>1</userid></user></users>";
+        $reader->read($xml);
+        $this->assertTrue($reader->valid());
+
+        $xml = "<users><user><wronngtag><userid>1</userid></user></users>";
+        $reader->read($xml);
+        $this->assertFalse($reader->valid());
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testThrowExceptionIfNoPayload()
+    {
+        $xml = "this is not xml";
+        $reader = new XMLReaderWriter();
+        $reader->getArray();
+    }
+
+
 
 }

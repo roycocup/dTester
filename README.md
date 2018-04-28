@@ -64,3 +64,9 @@ git bundle create solution.bundle master
 ```
 
 Submit your solution via email
+
+
+# Solution Rationale
+
+- Following a brief investigation of the existing code, the complexity and the amount of time that it would take 
+to cover the existing codebase in tests would be vastly greater than building a new solution. 
