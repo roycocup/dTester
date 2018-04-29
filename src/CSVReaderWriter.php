@@ -25,7 +25,7 @@ class CSVReaderWriter implements ReaderWriter
     public function getArray()
     {
         $this->_canExecute();
-        return "";
+        return str_getcsv($this->_payload);
     }
 
     public function valid(): bool
@@ -41,8 +41,24 @@ class CSVReaderWriter implements ReaderWriter
         }
     }
 
-    public function write(string $fileName)
+    public function write(string $fileName): bool
     {
-        
+        if (empty($fileName))
+            return false;
+
+        $arr = $this->getArray();
+        try {
+            $h = fopen($fileName, "w+");
+            fputcsv($h, $arr);
+        } catch (\Exception $e){
+            echo $e->getMessage();
+            return false;
+        } finally {
+            if (!empty($h)){
+                fclose($h);
+            }
+        }
+
+        return true;
     }
 }

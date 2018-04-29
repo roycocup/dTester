@@ -7,17 +7,17 @@ use Solution\XMLReaderWriter;
 class XMLTest extends TestCase
 {
 
-    private $testFile = ".testFile.xml";
+    private $_testFile = ".testFile.xml";
     protected function setUp()
     {
         parent::setUp();
-        touch($this->testFile);
+        touch($this->_testFile);
     }
 
     protected function tearDown()
     {
         parent::tearDown();
-        unlink($this->testFile);
+        unlink($this->_testFile);
     }
 
 
@@ -87,8 +87,8 @@ class XMLTest extends TestCase
 ";
         $writer = new XMLReaderWriter();
         $writer->read($expected);
-        $writer->write($this->testFile);
-        $out = file_get_contents($this->testFile);
+        $writer->write($this->_testFile);
+        $out = file_get_contents($this->_testFile);
 
         $this->assertEquals($expected, $out);
     }
