@@ -11,6 +11,8 @@ namespace Solution;
 
 interface ReaderWriter
 {
+    public function payloadExists():bool;
     public function read(string $payload);
     public function write(string $fileName);
+    public function getArray(): array ;
 }

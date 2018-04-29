@@ -1,7 +1,8 @@
 <?php
 namespace Solution;
 
-class CSVReaderWriter implements ReaderWriter
+
+class JsonReaderWriter implements ReaderWriter
 {
     private $_payload = "";
 
@@ -22,15 +23,25 @@ class CSVReaderWriter implements ReaderWriter
         return $this->_payload;
     }
 
-    public function getArray(): array
+    public function getArray():array
     {
         $this->_canExecute();
-        return str_getcsv($this->_payload);
+
+        $res = json_decode($this->_payload);
+
+        if (!is_array($res))
+            return false;
+
+        return $res;
     }
 
     public function valid(): bool
     {
-        return false;
+        $res = $this->getArray();
+        if (!is_array($res))
+            return false;
+
+        return true;
     }
 
     private function _canExecute()
@@ -45,14 +56,10 @@ class CSVReaderWriter implements ReaderWriter
     {
         $arr = $this->getArray();
         try {
-            $h = fopen($fileName, "w+");
-            fputcsv($h, $arr);
+            $yaml = Yaml::dump($arr);
         } catch (\Exception $e){
+            echo $e->getMessage();
             return false;
-        } finally {
-            if (!empty($h)){
-                fclose($h);
-            }
         }
 
         return true;

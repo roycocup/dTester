@@ -27,7 +27,7 @@ class XMLReaderWriter implements ReaderWriter
         return $this->_payload;
     }
 
-    public function getArray()
+    public function getArray(): array
     {
         $this->_canExecute();
         $reader = new XmlReader();
